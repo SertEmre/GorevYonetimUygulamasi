@@ -12,6 +12,11 @@ class GorevYonetimi:
         self.gorevler = []
         self.gorevleriDosyadanYukle()
     
+    def gorevSil(self, sira_numarasi):
+            silinen_gorev = self.gorevler.pop(sira_numarasi-1)
+            self.gorevleriDosyayaKaydet()
+            print(f"{silinen_gorev.baslik} görevi silindi.")
+
     def gorevleriDosyadanYukle(self):
         if os.path.exists("gorevler.json"):
             with open("gorevler.json", "r", encoding="utf-8") as file:
@@ -66,9 +71,9 @@ yonetim = GorevYonetimi()
 
 while True:
     print("Görev Uygulaması".center(50, "*"))
-    secim = input("1- Görev Ekle\n2- Görevleri Listele\n3- Görev Durumunu Güncelle\n4- Çıkış Yap\nSeçiminiz: ")
+    secim = input("1- Görev Ekle\n2- Görevleri Listele\n3- Görev Durumunu Güncelle\n4-Görev Sil\n5- Çıkış Yap\nSeçiminiz: ")
 
-    if secim == "4":
+    if secim == "5":
         print("Çıkış")
         break
     elif secim == "1":
@@ -83,6 +88,13 @@ while True:
         try:
             sira = int(input("Tamamlamak istediğiniz görev numarasını girin: "))
             yonetim.gorevTamamla(sira)
+        except ValueError:
+            print("Lütfen sadece sayı giriniz.")
+    elif secim == "4":
+        yonetim.gorevleriListele()
+        try:
+            sira = int(input("Silmek istediğiniz görevin numarasını giriniz: "))
+            yonetim.gorevSil(sira)
         except ValueError:
             print("Lütfen sadece sayı giriniz.")
     else:
